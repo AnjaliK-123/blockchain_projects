@@ -1,0 +1,11 @@
+1. hello-world_modal.py:
+https://modal.com/apps/anjalik-123/main/ap-FsLi8pTj2gmcABziKVcHib
+
+
+2. web_scrapper:
+https://modal.com/apps/anjalik-123/main/deployed/link-scrapper
+
+
+3. web_endpoints:
+https://modal.com/apps/anjalik-123/main/deployed/example-lifecycle-web
+
