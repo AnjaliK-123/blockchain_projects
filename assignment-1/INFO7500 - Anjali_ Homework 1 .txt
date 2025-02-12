@@ -1,0 +1,118 @@
+﻿Homework 1 - Cryptography
+
+
+1.
+H(x) = x2 mod 9
+If x = 1
+Then, 
+        x2 mod 9 = 1 mod 9 = 1
+Also,
+If x = 8
+Then,
+        x2 mod 9 = 82 mod 9 = 64 mod 9 = 1
+H(1) and H(8)
+Therefore x=1 and x = 64 are the collisions
+
+
+2.
+Consider,
+        x1 = 85 =  01010101
+        x2 = 165 = 10100101
+H(85) and H(165)
+There are 2 0’s common between two bit strings. Hence there are collisions.
+
+
+3. 
+Consider,
+        x1 =     8 = 00000000 00000000 00000000 00001000
+        x2 = 208 = 00000000 00000000 00000000 11010000
+H(8) and H(208)
+The last 3 least digits are identical for the above integers.
+
+
+4.
+use hex;
+use sha2::{Sha256, Digest};
+use rand::Rng;
+
+
+fn main() {
+  let id_hex = "ED00AF5F774E4135E7746419FEB65DE8AE17D6950C95CEC3891070FBB5B03C78";
+  let id = hex::decode(id_hex).expect("Decoding failed");
+   loop{
+       // define 32 byte array
+       let mut x = [0; 32];
+       // fill array with random values
+       rand::thread_rng().fill(&mut x);
+       //concatenate id and x
+       let mut concat = [0u8; 64];
+       concat[..32].copy_from_slice(&id);
+       concat[32..].copy_from_slice(&x);
+       //compute SHA-256 hash
+       let mut hash = Sha256::new();
+       hash.update(&concat);
+       let result = hash.finalize();
+       //check if byte has 0x2F
+       if result.iter().any(|&byte| byte == 0x2F){
+           let hex_x = hex::encode(x);
+           println!("Found x: {hex_x}");
+           break;
+       }
+  }
+}
+
+
+
+
+5.
+use sha2::{Sha256, Digest};
+use std::io;
+
+
+fn hash_choice(choice: &str) -> String {
+   let mut hasher = Sha256::new();
+   hasher.update(choice);
+   let result = hasher.finalize();
+   hex::encode(result)
+}
+
+
+fn determine_winner<'a>(player1_choice: &'a str, player2_choice: &'a str) -> &'a str {
+   match (player1_choice, player2_choice) {
+       ("rock","scissor") | ("scissor","paper") | ("paper","rock") => "Player 1 wins!",
+       ("scissor","rock") | ("paper","scissor") | ("rock","paper") => "Player 2 wins!",
+       _ => "Its a tie!",
+   }
+}
+
+
+
+
+fn main() {
+   // declare 2 players
+   let mut player1_choice = String::new();
+   let mut player2_choice = String::new();
+
+
+   //take input from player1
+   println!("Payer 1, enter your choice: rock, papper or scissor");
+   io::stdin().read_line(&mut player1_choice).expect("Failed to read line");
+   let player1_choice = player1_choice.trim();
+   //take input from player2
+   println!("Payer 2, enter your choice: rock, papper or scissor");
+   io::stdin().read_line(&mut player2_choice).expect("Failed to read line");
+   let player2_choice = player2_choice.trim();
+
+
+   //hash the choices
+   let player1_hash = hash_choice(player1_choice);
+   let player2_hash = hash_choice(player2_choice);
+
+
+   //determine the winner
+   println!("Player 1 chose: {}", player1_choice);
+   println!("Player 2 chose: {}", player2_choice);
+   let result = determine_winner(player1_choice, player2_choice);
+   println!("{}", result);
+  
+}
