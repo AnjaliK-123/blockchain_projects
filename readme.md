@@ -1,1 +1,1 @@
-INFOO 7500 assignments.
+INFO 7500 assignments.
