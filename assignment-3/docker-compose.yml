@@ -1,0 +1,8 @@
+services:
+  bitcoinid:
+    image: ruimarinho/bitcoin-core:latest
+    ports:
+      - "8332:8332"
+    volumes:
+      - ./bitcoin-data:/root/.bitcoin
+    command: ["-printtoconsole"]
