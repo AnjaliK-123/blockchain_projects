@@ -7,3 +7,9 @@
 [submodule "assignment-5/uniswapv2-foundry/lib/v2-periphery"]
 	path = assignment-5/uniswapv2-foundry/lib/v2-periphery
 	url = https://github.com/uniswap/v2-periphery
+[submodule "assignment-5/uniswapv2-foundry/contracts/v2-core"]
+    path = assignment-5/uniswapv2-foundry/contracts/v2-core
+    url = https://github.com/uniswap/v2-core
+[submodule "assignment-5/uniswapv2-foundry/contracts/v2-periphery"]
+	path = assignment-5/uniswapv2-foundry/contracts/v2-periphery
+	url = https://github.com/uniswap/v2-periphery

@@ -1,10 +1,15 @@
-pragma solidity ^0.5.16;
+pragma solidity ^0.6.6;
 
 import "forge-std/Test.sol";
-import "@uniswap/v2-core/contracts/UniswapV2ERC20.sol";
-import "@uniswap/v2-core/contracts/UniswapV2Factory.sol";
-import "@uniswap/v2-core/contracts/UniswapV2Pair.sol";
-import "@uniswap/v2-periphery/contracts/UniswapV2Router02.sol";
+import "lib/v2-core/contracts/interfaces/IUniswapV2ERC20.sol";
+import "lib/v2-core/contracts/interfaces/IUniswapV2Factory.sol";
+import "lib/v2-core/contracts/interfaces/IUniswapV2Pair.sol";
+import "lib/v2-periphery/contracts/UniswapV2Router02.sol";
+import "lib/uniswap-lib/contracts/libraries/TransferHelper.sol";
+import "lib/uniswap-lib/contracts/libraries/FixedPoint.sol";
+import "lib/uniswap-lib/contracts/libraries/Babylonian.sol";
+import "lib/v2-core/contracts/UniswapV2Factory.sol";
+import "lib/v2-core/contracts/UniswapV2Pair.sol";
 
 
 contract UniswapV2Router02Test is Test {
@@ -54,7 +59,7 @@ contract UniswapV2Router02Test is Test {
     function testSwapTokens() public {
         tokenA.approve(address(router), 500 * 10**18);
         tokenB.approve(address(router), 500 * 10**18);
-        router.addLiquidity(address(tokenA), address(tokenB), 500 * 100**18, 500 * 100**18, 0, 0, address(this), block.timestamp);
+        router.addLiquidity(address(tokenA), address(tokenB), 500 * 10**18, 500 * 10**18, 0, 0, address(this), block.timestamp);
 
 
         tokenA.approve(address(router), 100 * 10**18);
@@ -70,7 +75,7 @@ contract UniswapV2Router02Test is Test {
             block.timestamp
         );   
 
-        assertGt(amount[1], 0);     
+        assertGt(amounts[1], 0);     
     }
 
     function testRemoveLiquidity() public {
@@ -78,8 +83,7 @@ contract UniswapV2Router02Test is Test {
         tokenB.approve(address(router), 500 * 10**18);
         router.addLiquidity(address(tokenA), address(tokenB), 500 * 10**18, 500 * 10**18, 0, 0, address(this), block.timestamp);
 
-
-        uint liquidity = pair.balanceof(address(this));
+        uint liquidity = pair.balanceOf(address(this)); // Corrected from balanceof to balanceOf
         pair.approve(address(router), liquidity);
 
         (uint amountA, uint amountB) = router.removeLiquidity(
@@ -94,10 +98,5 @@ contract UniswapV2Router02Test is Test {
 
         assertGt(amountA, 0);
         assertGt(amountB, 0);
-
     }
 }
-
-
-
-

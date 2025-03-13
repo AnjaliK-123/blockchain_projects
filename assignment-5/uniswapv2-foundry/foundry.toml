@@ -1,12 +1,10 @@
 [profile.default]
-optimizer = true
-evm_version = "london"
-solc_version = "0.8.13" # For your tests
-[profile.legacy]
-solc_version = "0.5.16" # For Uniswap contracts
+src = "src"
+out = "out"
+libs = ["lib"]
 remappings = [
-    "@uniswap/v2-core/=node_modules/@uniswap/v2-core/",
-    "@uniswap/v2-periphery/=node_modules/@uniswap/v2-periphery/"
+    "@uniswap/v2-core/=lib/v2-core/contracts/",
+    "@uniswap/v2-periphery/=lib/v2-periphery/contracts/",
+    "@uniswap/lib/=lib/uniswap-lib/contracts/"
 ]
-
-# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+solc_version = "0.6.6"    
